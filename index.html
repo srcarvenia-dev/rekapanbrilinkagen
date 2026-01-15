@@ -16,11 +16,11 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text-main); padding-bottom: 50px; }
         
-        /* Update Header untuk Logo */
+        /* Gaya Header dengan Logo */
         .app-header { background: var(--primary); color: white; padding: 30px 20px 60px; border-radius: 0 0 30px 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: -40px; }
-        .header-content { display: flex; align-items: center; gap: 12px; }
-        .header-logo { width: 45px; height: 45px; object-fit: contain; border-radius: 8px; background: white; padding: 2px; }
-        .app-header h2 { margin: 0; font-size: 1.4rem; letter-spacing: -0.5px; line-height: 1.2; }
+        .header-content { display: flex; align-items: center; gap: 15px; }
+        .logo-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
+        .app-header h2 { margin: 0; font-size: 1.4rem; letter-spacing: -1px; }
         
         .tanggal { opacity: 0.8; font-size: 0.85rem; margin-top: 5px; }
         .container { max-width: 500px; margin: auto; padding: 0 16px; }
@@ -68,11 +68,11 @@
 <div class="app-header">
   <div class="container">
     <div class="header-content">
-      <img src="bbrrii.PNG" alt="Logo BRI" class="header-logo">
-      <div>
-        <h2>BRILink Agen ARVENIA</h2>
-        <div class="tanggal" id="tglDisplay">Hari ini</div>
-      </div>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1O42LA5fXZY9ar__8l-rHYpg4NI8z4efq-NTPfJgQkQZyILrjet7LO1P0pEbso24aktnzKHmCWPuOAbOK9tSw32ZdBxjyXZtltdyDNFh1CoXGqkhut3eTDCxXA6yQTS4QKmhyWuwuvxexm46bDJUem_TUpX2NFO14wbLMn_1Uswuv02tMyGLYUdJIZkM/s200/bbrrii.PNG" alt="Logo" class="logo-img">
+        <div>
+            <h2>BRILink Agen ARVENIA</h2>
+            <div class="tanggal" id="tglDisplay">Hari ini</div>
+        </div>
     </div>
   </div>
 </div>
@@ -143,6 +143,8 @@
 
 <script>
 // --- LOGIKA PWA & SERVICE WORKER ---
+const appIcon = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1O42LA5fXZY9ar__8l-rHYpg4NI8z4efq-NTPfJgQkQZyILrjet7LO1P0pEbso24aktnzKHmCWPuOAbOK9tSw32ZdBxjyXZtltdyDNFh1CoXGqkhut3eTDCxXA6yQTS4QKmhyWuwuvxexm46bDJUem_TUpX2NFO14wbLMn_1Uswuv02tMyGLYUdJIZkM/s200/bbrrii.PNG";
+
 const manifest = {
     "name": "BRILink Pro Agen ARVENIA",
     "short_name": "BRILink Pro",
@@ -150,7 +152,7 @@ const manifest = {
     "display": "standalone",
     "background_color": "#f8fafc",
     "theme_color": "#00529C",
-    "icons": [{ "src": "bbrrii.PNG", "sizes": "512x512", "type": "image/png" }]
+    "icons": [{ "src": appIcon, "sizes": "200x200", "type": "image/png" }]
 };
 const manifestURL = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type: 'application/json'}));
 document.querySelector('#pwa-manifest').setAttribute('href', manifestURL);
