@@ -50,8 +50,6 @@
         .empty-state { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem; }
         .filter-group { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; }
         .filter-group input { padding: 8px; margin-top: 0; font-size: 0.9rem; }
-        
-        /* Notifikasi Instal */
         #installBanner { position: fixed; bottom: 20px; left: 16px; right: 16px; background: #fff; padding: 15px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 9999; border: 2px solid var(--primary); }
     </style>
 </head>
@@ -99,7 +97,7 @@
   </div>
 
   <div class="summary-card">
-    <div class="summary-label" id="summaryLabel">Total Keuntungan Hari Ini</div>
+    <div class="summary-label" id="summaryLabel">Total Keuntungan</div>
     <div class="summary-value" id="totalFeeDisplay">Rp 0</div>
   </div>
 
@@ -123,6 +121,10 @@
 </div>
 
 <script>
+// --- KONFIGURASI GOOGLE SHEETS ---
+// Ganti link di bawah ini dengan URL Web App dari Google Script Anda
+const URL_API = "LINK_WEB_APP_ANDA_DI_SINI"; 
+
 // --- LOGIKA PWA (INSTALL) ---
 const manifest = {
     "name": "BRILink Pro",
@@ -131,9 +133,7 @@ const manifest = {
     "display": "standalone",
     "background_color": "#f8fafc",
     "theme_color": "#00529C",
-    "icons": [
-        { "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png", "sizes": "512x512", "type": "image/png" }
-    ]
+    "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png", "sizes": "512x512", "type": "image/png" }]
 };
 const stringManifest = JSON.stringify(manifest);
 const blob = new Blob([stringManifest], {type: 'application/json'});
@@ -150,9 +150,8 @@ window.addEventListener('beforeinstallprompt', (e) => {
 async function installApp() {
     if (deferredPrompt) {
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
         deferredPrompt = null;
+        document.getElementById('installBanner').style.display = 'none';
     }
 }
 
@@ -191,11 +190,14 @@ function simpan() {
     n: Number(vNominal),
     f: Number(vFee),
     k: document.getElementById('ket').value,
-    time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})
+    time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}),
+    tgl: t
   };
 
   if(editIndex === null) {
     data[t].unshift(item);
+    // Kirim ke Google Sheets hanya saat transaksi baru
+    kirimKeGoogle(item);
   } else {
     data[t][editIndex] = item;
     editIndex = null;
@@ -205,6 +207,22 @@ function simpan() {
   simpanData(data);
   resetForm();
   tampil();
+}
+
+async function kirimKeGoogle(item) {
+  if(!URL_API || URL_API.includes("LINK_WEB_APP")) return;
+  
+  try {
+    const response = await fetch(URL_API, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(item),
+      headers: { "Content-Type": "application/json" }
+    });
+    console.log("Data terkirim ke cloud");
+  } catch (e) {
+    console.error("Gagal kirim ke cloud", e);
+  }
 }
 
 function resetForm() {
@@ -240,7 +258,7 @@ function tampil() {
   const tglPilih = document.getElementById('filterTgl').value;
   const t = formatTglIndo(tglPilih);
   document.getElementById('tglDisplay').innerText = t;
-  document.getElementById('summaryLabel').innerText = "Total Keuntungan Tanggal " + t;
+  document.getElementById('summaryLabel').innerText = "Total Keuntungan " + t;
 
   let listHari = data[t] || [];
   let html = "", total = 0;
@@ -265,7 +283,7 @@ function tampil() {
     </div>`;
   });
 
-  document.getElementById('list').innerHTML = html || `<div class="empty-state">Tidak ada transaksi pada tanggal ini.</div>`;
+  document.getElementById('list').innerHTML = html || `<div class="empty-state">Tidak ada transaksi.</div>`;
   document.getElementById('totalFeeDisplay').innerText = formatRupiah(total);
 }
 </script>
