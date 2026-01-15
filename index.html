@@ -1,174 +1,197 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BRILink Pro v1.0</title>
-    
-    <meta name="theme-color" content="#00529C">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" id="pwa-manifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BRILink Pro v1.0</title>
+    
+    <meta name="theme-color" content="#00529C">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" id="pwa-manifest">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #00529C; --accent: #F15A23; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --card: #ffffff; --text-main: #1e293b; --text-muted: #64748b; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text-main); padding-bottom: 50px; }
-        .app-header { background: var(--primary); color: white; padding: 30px 20px 60px; border-radius: 0 0 30px 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: -40px; }
-        .app-header h2 { margin: 0; font-size: 1.6rem; letter-spacing: -1px; }
-        .tanggal { opacity: 0.8; font-size: 0.85rem; margin-top: 5px; }
-        .container { max-width: 500px; margin: auto; padding: 0 16px; }
-        .card { background: var(--card); border-radius: 20px; padding: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid rgba(226, 232, 240, 0.8); }
-        .card-title { font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .form-group { margin-bottom: 15px; }
-        label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-left: 4px; }
-        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; margin-top: 6px; font-family: inherit; font-size: 1rem; transition: all 0.2s; }
-        input:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(0, 82, 156, 0.1); }
-        .btn-primary { width: 100%; padding: 16px; border: none; border-radius: 14px; background: var(--primary); color: white; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.1s; }
-        .btn-primary:active { transform: scale(0.98); }
-        .card-header-action { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .arrow-icon { transition: transform 0.3s; font-size: 0.8rem; font-weight: bold; }
-        #list-container { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.3s; opacity: 1; margin-top: 15px; }
-        .collapsed #list-container { max-height: 0; opacity: 0; margin-top: 0; }
-        .collapsed .arrow-icon { transform: rotate(-90deg); }
-        .item { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
-        .item:last-child { border-bottom: none; }
-        .item-type { font-weight: 700; font-size: 0.95rem; display: block; }
-        .item-desc { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 2px; }
-        .item-right { text-align: right; }
-        .item-nominal { font-weight: 700; color: var(--primary); display: block; }
-        .item-fee { font-size: 0.75rem; color: var(--success); font-weight: 600; }
-        .actions { margin-top: 8px; display: flex; gap: 8px; justify-content: flex-end; }
-        .btn-action { padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; border: none; cursor: pointer; }
-        .btn-edit { background: #f1f5f9; color: var(--text-main); }
-        .btn-delete { background: #fef2f2; color: var(--danger); }
-        .badge-count { background: var(--primary); color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; margin-left: 8px; }
-        .summary-card { background: linear-gradient(135deg, var(--primary), #1e40af); color: white; padding: 20px; border-radius: 20px; margin-top: 10px; }
-        .summary-label { font-size: 0.85rem; opacity: 0.9; }
-        .summary-value { font-size: 1.5rem; font-weight: 700; margin-top: 4px; }
-        .empty-state { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem; }
-        .filter-group { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; }
-        .filter-group input { padding: 8px; margin-top: 0; font-size: 0.9rem; }
-        
-        /* Notifikasi Instal */
-        #installBanner { position: fixed; bottom: 20px; left: 16px; right: 16px; background: #fff; padding: 15px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 9999; border: 2px solid var(--primary); }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00529C; --accent: #F15A23; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --card: #ffffff; --text-main: #1e293b; --text-muted: #64748b; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text-main); padding-bottom: 50px; }
+        .app-header { background: var(--primary); color: white; padding: 30px 20px 60px; border-radius: 0 0 30px 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: -40px; }
+        .app-header h2 { margin: 0; font-size: 1.6rem; letter-spacing: -1px; }
+        .tanggal { opacity: 0.8; font-size: 0.85rem; margin-top: 5px; }
+        .container { max-width: 500px; margin: auto; padding: 0 16px; }
+        .card { background: var(--card); border-radius: 20px; padding: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid rgba(226, 232, 240, 0.8); }
+        .card-title { font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-left: 4px; }
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; margin-top: 6px; font-family: inherit; font-size: 1rem; transition: all 0.2s; }
+        input:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(0, 82, 156, 0.1); }
+        .btn-primary { width: 100%; padding: 16px; border: none; border-radius: 14px; background: var(--primary); color: white; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.1s; }
+        .btn-primary:active { transform: scale(0.98); }
+        .card-header-action { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .arrow-icon { transition: transform 0.3s; font-size: 0.8rem; font-weight: bold; }
+        #list-container { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.3s; opacity: 1; margin-top: 15px; }
+        .collapsed #list-container { max-height: 0; opacity: 0; margin-top: 0; }
+        .collapsed .arrow-icon { transform: rotate(-90deg); }
+        .item { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
+        .item:last-child { border-bottom: none; }
+        .item-type { font-weight: 700; font-size: 0.95rem; display: block; }
+        .item-desc { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 2px; }
+        .item-right { text-align: right; }
+        .item-nominal { font-weight: 700; color: var(--primary); display: block; }
+        .item-fee { font-size: 0.75rem; color: var(--success); font-weight: 600; }
+        .actions { margin-top: 8px; display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-action { padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; border: none; cursor: pointer; }
+        .btn-edit { background: #f1f5f9; color: var(--text-main); }
+        .btn-delete { background: #fef2f2; color: var(--danger); }
+        .badge-count { background: var(--primary); color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; margin-left: 8px; }
+        .summary-card { background: linear-gradient(135deg, var(--primary), #1e40af); color: white; padding: 20px; border-radius: 20px; margin-top: 10px; }
+        .summary-label { font-size: 0.85rem; opacity: 0.9; }
+        .summary-value { font-size: 1.5rem; font-weight: 700; margin-top: 4px; }
+        .empty-state { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem; }
+        .filter-group { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; }
+        .filter-group input { padding: 8px; margin-top: 0; font-size: 0.9rem; }
+        
+        /* Notifikasi Instal */
+        #installBanner { position: fixed; bottom: 20px; left: 16px; right: 16px; background: #fff; padding: 15px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 9999; border: 2px solid var(--primary); }
+    </style>
 </head>
 <body>
 
 <div id="installBanner">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight:700; font-size:0.9rem;">Pasang Aplikasi di Layar Utama?</span>
-        <button onclick="installApp()" class="btn-action" style="background:var(--primary); color:#fff; padding:8px 15px;">Install</button>
-    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:700; font-size:0.9rem;">Pasang BRILink Pro di Layar Utama?</span>
+        <button onclick="installApp()" class="btn-action" style="background:var(--primary); color:#fff; padding:8px 15px;">Install</button>
+    </div>
 </div>
 
 <div class="app-header">
-  <div class="container">
-    <h2>BRILink Agen ARVENIA</h2>
-    <div class="tanggal" id="tglDisplay">Hari ini</div>
-  </div>
+  <div class="container">
+    <h2>BRILink Agen ARVENIA</h2>
+    <div class="tanggal" id="tglDisplay">Hari ini</div>
+  </div>
 </div>
 
 <div class="container">
-  <div class="card" style="margin-top: -20px;">
-    <div class="card-title" style="margin-bottom:15px;">📝 Input Transaksi</div>
-    <div class="form-group">
-      <label>Jenis</label>
-      <select id="jenis">
-        <option>Tarik Tunai</option>
-        <option>Transfer</option>
-        <option>Pembayaran</option>
-        <option>Setor Tunai</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Nominal (Rp)</label>
-      <input type="number" id="nominal" placeholder="0">
-    </div>
-    <div class="form-group">
-      <label>Fee Agen (Rp)</label>
-      <input type="number" id="fee" placeholder="0">
-    </div>
-    <div class="form-group">
-      <label>Keterangan</label>
-      <input type="text" id="ket" placeholder="Catatan tambahan...">
-    </div>
-    <button id="btn" class="btn-primary" onclick="simpan()">Simpan Transaksi</button>
-  </div>
+  <div class="card" style="margin-top: -20px;">
+    <div class="card-title" style="margin-bottom:15px;">📝 Input Transaksi</div>
+    <div class="form-group">
+      <label>Jenis</label>
+      <select id="jenis">
+        <option>Tarik Tunai</option>
+        <option>Transfer</option>
+        <option>Pembayaran</option>
+        <option>Setor Tunai</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Nominal (Rp)</label>
+      <input type="number" id="nominal" placeholder="0">
+    </div>
+    <div class="form-group">
+      <label>Fee Agen (Rp)</label>
+      <input type="number" id="fee" placeholder="0">
+    </div>
+    <div class="form-group">
+      <label>Keterangan</label>
+      <input type="text" id="ket" placeholder="Catatan tambahan...">
+    </div>
+    <button id="btn" class="btn-primary" onclick="simpan()">Simpan Transaksi</button>
+  </div>
 
-  <div class="summary-card">
-    <div class="summary-label" id="summaryLabel">Total Keuntungan Hari Ini</div>
-    <div class="summary-value" id="totalFeeDisplay">Rp 0</div>
-  </div>
+  <div class="summary-card">
+    <div class="summary-label" id="summaryLabel">Total Keuntungan Hari Ini</div>
+    <div class="summary-value" id="totalFeeDisplay">Rp 0</div>
+  </div>
 
-  <div class="card" style="margin-top: 20px;" id="historyCard">
-    <div class="card-header-action" onclick="toggleHistory()">
-      <div class="card-title">
-        🕒 Riwayat Transaksi <span id="countBadge" class="badge-count">0</span>
-      </div>
-      <div class="arrow-icon">▼</div>
-    </div>
-    
-    <div id="list-container">
-      <div class="filter-group" style="margin-top: 15px;">
-        <label style="margin-left: 0; min-width: 80px;">Pilih Tgl:</label>
-        <input type="date" id="filterTgl" onchange="tampil()">
-      </div>
-      <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-      <div id="list"></div>
-    </div>
-  </div>
+  <div class="card" style="margin-top: 20px;" id="historyCard">
+    <div class="card-header-action" onclick="toggleHistory()">
+      <div class="card-title">
+        🕒 Riwayat Transaksi <span id="countBadge" class="badge-count">0</span>
+      </div>
+      <div class="arrow-icon">▼</div>
+    </div>
+    
+    <div id="list-container">
+      <div class="filter-group" style="margin-top: 15px;">
+        <label style="margin-left: 0; min-width: 80px;">Pilih Tgl:</label>
+        <input type="date" id="filterTgl" onchange="tampil()">
+      </div>
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+      <div id="list"></div>
+    </div>
+  </div>
 </div>
 
 <script>
-// --- LOGIKA PWA (INSTALL) ---
+// --- 1. GENERATE MANIFEST DYNAMICALLY ---
 const manifest = {
-    "name": "BRILink Pro",
-    "short_name": "BRILink",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#f8fafc",
-    "theme_color": "#00529C",
-    "icons": [
-        { "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png", "sizes": "512x512", "type": "image/png" }
-    ]
+    "name": "BRILink Pro Agen ARVENIA",
+    "short_name": "BRILink Pro",
+    "start_url": window.location.href,
+    "display": "standalone",
+    "background_color": "#f8fafc",
+    "theme_color": "#00529C",
+    "icons": [{ 
+        "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png", 
+        "sizes": "512x512", 
+        "type": "image/png" 
+    }]
 };
 const stringManifest = JSON.stringify(manifest);
 const blob = new Blob([stringManifest], {type: 'application/json'});
 const manifestURL = URL.createObjectURL(blob);
 document.querySelector('#pwa-manifest').setAttribute('href', manifestURL);
 
+// --- 2. SERVICE WORKER INLINE ---
+// Membuat Service Worker dari Blob agar tidak perlu file sw.js terpisah
+const swCode = `
+    const CACHE_NAME = 'brilink-v1';
+    self.addEventListener('install', (e) => {
+        e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(['./'])));
+    });
+    self.addEventListener('fetch', (e) => {
+        e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+    });
+`;
+const swBlob = new Blob([swCode], {type: 'application/javascript'});
+const swURL = URL.createObjectURL(swBlob);
+
+if ('serviceWorker' in navigator) {
+    // Note: Inline Service Worker via Blob terkadang dibatasi oleh Chrome di domain tertentu.
+    // Jika tidak muncul tombol install, Anda tetap disarankan memisah file sw.js.
+    navigator.serviceWorker.register(swURL).catch(err => console.log("SW Error:", err));
+}
+
+// --- 3. LOGIKA INSTALL ---
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('installBanner').style.display = 'block';
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBanner').style.display = 'block';
 });
 
 async function installApp() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
-        deferredPrompt = null;
-    }
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
+        deferredPrompt = null;
+    }
 }
 
-// --- LOGIKA APLIKASI ---
+// --- 4. LOGIKA APLIKASI UTAMA ---
 const KEY="brilink-data-final";
 let editIndex=null;
 
 window.onload = function() {
-  const hariIniIso = new Date().toISOString().split('T')[0];
-  document.getElementById('filterTgl').value = hariIniIso;
-  tampil();
+    const hariIniIso = new Date().toISOString().split('T')[0];
+    document.getElementById('filterTgl').value = hariIniIso;
+    tampil();
 };
 
 function formatTglIndo(isoString) {
-  const d = new Date(isoString);
-  return d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+    const d = new Date(isoString);
+    return d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
 }
 
 function ambil() { return JSON.parse(localStorage.getItem(KEY)) || {}; }
@@ -177,98 +200,97 @@ function formatRupiah(n) { return "Rp " + n.toLocaleString('id-ID'); }
 function toggleHistory() { document.getElementById('historyCard').classList.toggle('collapsed'); }
 
 function simpan() {
-  const vNominal = document.getElementById('nominal').value;
-  const vFee = document.getElementById('fee').value;
-  if(!vNominal || !vFee) return alert("Nominal & Fee wajib diisi!");
-  
-  let data = ambil();
-  const tglPilih = document.getElementById('filterTgl').value;
-  const t = formatTglIndo(tglPilih);
-  if(!data[t]) data[t] = [];
+    const vNominal = document.getElementById('nominal').value;
+    const vFee = document.getElementById('fee').value;
+    if(!vNominal || !vFee) return alert("Nominal & Fee wajib diisi!");
+    
+    let data = ambil();
+    const tglPilih = document.getElementById('filterTgl').value;
+    const t = formatTglIndo(tglPilih);
+    if(!data[t]) data[t] = [];
 
-  const item = {
-    j: document.getElementById('jenis').value,
-    n: Number(vNominal),
-    f: Number(vFee),
-    k: document.getElementById('ket').value,
-    time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})
-  };
+    const item = {
+        j: document.getElementById('jenis').value,
+        n: Number(vNominal),
+        f: Number(vFee),
+        k: document.getElementById('ket').value,
+        time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})
+    };
 
-  if(editIndex === null) {
-    data[t].unshift(item);
-  } else {
-    data[t][editIndex] = item;
-    editIndex = null;
-    document.getElementById('btn').innerText = "Simpan Transaksi";
-  }
+    if(editIndex === null) {
+        data[t].unshift(item);
+    } else {
+        data[t][editIndex] = item;
+        editIndex = null;
+        document.getElementById('btn').innerText = "Simpan Transaksi";
+    }
 
-  simpanData(data);
-  resetForm();
-  tampil();
+    simpanData(data);
+    resetForm();
+    tampil();
 }
 
 function resetForm() {
-  document.getElementById('nominal').value = "";
-  document.getElementById('fee').value = "";
-  document.getElementById('ket').value = "";
+    document.getElementById('nominal').value = "";
+    document.getElementById('fee').value = "";
+    document.getElementById('ket').value = "";
 }
 
 function hapus(i) {
-  if(confirm("Hapus transaksi ini?")) {
-    let data = ambil();
-    const t = formatTglIndo(document.getElementById('filterTgl').value);
-    data[t].splice(i, 1);
-    simpanData(data);
-    tampil();
-  }
+    if(confirm("Hapus transaksi ini?")) {
+        let data = ambil();
+        const t = formatTglIndo(document.getElementById('filterTgl').value);
+        data[t].splice(i, 1);
+        simpanData(data);
+        tampil();
+    }
 }
 
 function edit(i) {
-  const t = formatTglIndo(document.getElementById('filterTgl').value);
-  let data = ambil()[t][i];
-  document.getElementById('jenis').value = data.j;
-  document.getElementById('nominal').value = data.n;
-  document.getElementById('fee').value = data.f;
-  document.getElementById('ket').value = data.k;
-  editIndex = i;
-  document.getElementById('btn').innerText = "Update Transaksi";
-  window.scrollTo({top:0, behavior:"smooth"});
+    const t = formatTglIndo(document.getElementById('filterTgl').value);
+    let data = ambil()[t][i];
+    document.getElementById('jenis').value = data.j;
+    document.getElementById('nominal').value = data.n;
+    document.getElementById('fee').value = data.f;
+    document.getElementById('ket').value = data.k;
+    editIndex = i;
+    document.getElementById('btn').innerText = "Update Transaksi";
+    window.scrollTo({top:0, behavior:"smooth"});
 }
 
 function tampil() {
-  let data = ambil();
-  const tglPilih = document.getElementById('filterTgl').value;
-  const t = formatTglIndo(tglPilih);
-  document.getElementById('tglDisplay').innerText = t;
-  document.getElementById('summaryLabel').innerText = "Total Keuntungan Tanggal " + t;
+    let data = ambil();
+    const tglPilih = document.getElementById('filterTgl').value;
+    const t = formatTglIndo(tglPilih);
+    document.getElementById('tglDisplay').innerText = t;
+    document.getElementById('summaryLabel').innerText = "Total Keuntungan Tanggal " + t;
 
-  let listHari = data[t] || [];
-  let html = "", total = 0;
-  document.getElementById('countBadge').innerText = listHari.length;
+    let listHari = data[t] || [];
+    let html = "", total = 0;
+    document.getElementById('countBadge').innerText = listHari.length;
 
-  listHari.forEach((x, i) => {
-    total += x.f;
-    html += `
-    <div class="item">
-      <div style="flex:1">
-        <span class="item-type">${x.j}</span>
-        <span class="item-desc">${x.time} • ${x.k || '-'}</span>
-        <div class="actions">
-          <button class="btn-action btn-edit" onclick="edit(${i})">Edit</button>
-          <button class="btn-action btn-delete" onclick="hapus(${i})">Hapus</button>
-        </div>
-      </div>
-      <div class="item-right">
-        <span class="item-nominal">${formatRupiah(x.n)}</span>
-        <span class="item-fee">+ Fee ${formatRupiah(x.f)}</span>
-      </div>
-    </div>`;
-  });
+    listHari.forEach((x, i) => {
+        total += x.f;
+        html += `
+        <div class="item">
+          <div style="flex:1">
+            <span class="item-type">${x.j}</span>
+            <span class="item-desc">${x.time} • ${x.k || '-'}</span>
+            <div class="actions">
+              <button class="btn-action btn-edit" onclick="edit(${i})">Edit</button>
+              <button class="btn-action btn-delete" onclick="hapus(${i})">Hapus</button>
+            </div>
+          </div>
+          <div class="item-right">
+            <span class="item-nominal">${formatRupiah(x.n)}</span>
+            <span class="item-fee">+ Fee ${formatRupiah(x.f)}</span>
+          </div>
+        </div>`;
+    });
 
-  document.getElementById('list').innerHTML = html || `<div class="empty-state">Tidak ada transaksi pada tanggal ini.</div>`;
-  document.getElementById('totalFeeDisplay').innerText = formatRupiah(total);
+    document.getElementById('list').innerHTML = html || `<div class="empty-state">Tidak ada transaksi pada tanggal ini.</div>`;
+    document.getElementById('totalFeeDisplay').innerText = formatRupiah(total);
 }
 </script>
 </body>
-
-</html> 
+</html>
